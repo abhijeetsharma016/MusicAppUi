@@ -37,6 +37,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.musicappui.AccountDialog
 import com.example.musicappui.MainViewModel
 import com.example.musicappui.Screen
 import com.example.musicappui.screensInDrawer
@@ -55,9 +56,16 @@ fun MainView() {
     val navBackStackEntry by controller.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
+    val dialogOpen = remember{
+        mutableStateOf(false)
+    }
+
+    val currentScreen = remember{
+        viewModel.currentScreen.value
+    }
 
     val title = remember{
-        mutableStateOf("")
+        mutableStateOf(currentScreen.title)
     }
     Scaffold(
         topBar = {
@@ -84,6 +92,7 @@ fun MainView() {
                         }
                         if(item.dRoute == "add_account"){
                             //open diloag
+                            dialogOpen.value= true
                         }else{
                             controller.navigate(item.dRoute)
                             title.value = item.dTitle
@@ -94,6 +103,7 @@ fun MainView() {
         }
     ) {
         Navigation(navController = controller, viewMdel = viewModel, pd = it)
+        AccountDialog(dialogOpen = dialogOpen)
     }
 }
 
