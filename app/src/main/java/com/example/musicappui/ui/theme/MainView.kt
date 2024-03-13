@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -40,6 +43,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.musicappui.AccountDialog
 import com.example.musicappui.MainViewModel
 import com.example.musicappui.Screen
+import com.example.musicappui.screensInBottom
 import com.example.musicappui.screensInDrawer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -67,7 +71,31 @@ fun MainView() {
     val title = remember{
         mutableStateOf(currentScreen.title)
     }
+
+    val bottomBar: @Composable ()-> Unit = {
+        if (currentScreen is Screen.DrawerScreen || currentScreen == Screen.BottomScreen.Home) {
+            BottomNavigation(Modifier.wrapContentSize()) {
+                screensInBottom.forEach{
+                    item ->
+                    val isSelected = currentRoute == item.bRoute
+                    val tint = if(isSelected)Color.White else Color.Black
+                    BottomNavigationItem(
+                        selected = currentRoute == item.bRoute,
+                        onClick = { controller.navigate(item.bRoute) },
+                        icon = {
+                        Icon(tint= tint,
+                            contentDescription = item.bTitle, painter= painterResource(id = item.icon))
+                },
+                        label = { Text(text = item.bTitle)},
+                        selectedContentColor = Color.White,
+                        unselectedContentColor = Color.Black)
+
+                }
+            }
+        }
+    }
     Scaffold(
+        bottomBar = bottomBar,
         topBar = {
             TopAppBar(title = { Text(text = "Home") },
                 navigationIcon = {
