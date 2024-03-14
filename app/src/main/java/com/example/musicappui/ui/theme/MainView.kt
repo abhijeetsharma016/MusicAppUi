@@ -171,7 +171,7 @@ fun Navigation(navController: NavController, viewMdel: MainViewModel, pd: Paddin
         modifier = Modifier.padding(pd)
     ) {
         composable(Screen.BottomScreen.Home.bRoute){
-            //TODO add home view
+            Home()
         }
         composable(Screen.BottomScreen.Library.bRoute){
             //TODO add library view
