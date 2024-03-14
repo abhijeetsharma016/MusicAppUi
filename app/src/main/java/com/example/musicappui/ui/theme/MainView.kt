@@ -177,7 +177,7 @@ fun Navigation(navController: NavController, viewMdel: MainViewModel, pd: Paddin
             //TODO add library view
         }
         composable((Screen.BottomScreen.Browse.bRoute)) {
-            //TODO add Browse view
+            Browse()
         }
         composable(Screen.DrawerScreen.Account.route) {
             AccountView()
